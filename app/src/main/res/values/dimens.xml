@@ -1,0 +1,10 @@
+<resources>
+    <dimen name="smallMargin">15dp</dimen>
+    <dimen name="largeMargin">30dp</dimen>
+    <dimen name="tinyText">10sp</dimen>
+    <dimen name="smallText">20sp</dimen>
+    <dimen name="mediumText">25sp</dimen>
+    <dimen name="largeText">54sp</dimen>
+    <dimen name="hugeText">75sp</dimen>
+    <dimen name="titleBarText">15sp</dimen>
+</resources>

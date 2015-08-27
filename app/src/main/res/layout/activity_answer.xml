@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <Button
+        android:onClick="next"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:alpha="0"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:background="@color/white">
+
+            <Button
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textColor="@color/blue"
+                android:background="@color/white"
+                android:textAlignment="textStart"
+                android:textSize="@dimen/titleBarText"
+                android:textAllCaps="false"
+                android:fontFamily="sans-serif-light"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:text="@string/app_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/blue"
+                android:alpha=".5"
+                android:textSize="@dimen/titleBarText"
+                android:layout_gravity="center"
+                android:fontFamily="sans-serif-medium"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/done"
+                android:onClick="done"
+                android:text="@string/done"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textColor="@color/blue"
+                android:background="@color/white"
+                android:textAlignment="textStart"
+                android:textSize="@dimen/titleBarText"
+                android:textAllCaps="false"
+                android:fontFamily="sans-serif-light"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/answer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/answer"
+            android:layout_gravity="center"
+            android:gravity="bottom"
+            android:textAlignment="center"
+            android:textColor="@color/blue"
+            android:layout_weight="1"
+            android:textSize="@dimen/hugeText"
+            android:fontFamily="sans-serif-condensed"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/name"
+            android:text="@string/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textColor="@color/blue"
+            android:layout_margin="@dimen/smallMargin"
+            android:textSize="@dimen/mediumText"
+            android:fontFamily="sans-serif-bold"/>
+
+        <TextView
+            android:id="@+id/emoji"
+            android:text="@string/emoji"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="top"
+            android:textAlignment="center"
+            android:textColor="@color/blue"
+            android:layout_weight="1"
+            android:textSize="@dimen/largeText"/>
+
+        <Button
+            android:id="@+id/next"
+            android:onClick="next"
+            android:text="@string/next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:gravity="center"
+            android:textAlignment="viewEnd"
+            android:textColor="@color/blue"
+            android:background="@color/white"
+            android:textSize="@dimen/titleBarText"
+            android:textAllCaps="false"
+            android:fontFamily="sans-serif-light"/>
+
+    </LinearLayout>
+
+</AbsoluteLayout>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="@color/blue">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/email"
+            android:hint="@string/email"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:inputType="textEmailAddress"
+            android:textSize="@dimen/mediumText"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:background="@color/blue" />
+
+        <EditText
+            android:id="@+id/password"
+            android:hint="@string/password"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:inputType="textPassword"
+            android:textSize="@dimen/mediumText"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:background="@color/blue" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/logIn"
+                android:onClick="logIn"
+                android:text="@string/logIn"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/begin"
+                android:textColor="@color/white"
+                android:layout_margin="@dimen/largeMargin"
+                android:layout_gravity="center"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/sv1"
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        android:alpha="0">
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">½ + 7</string>
+    <string name="add">Add</string>
+    <string name="plus">+</string>
+    <string name="user">User</string>
+    <string name="answer">Answer</string>
+    <string name="name">Name</string>
+    <string name="nameHint">enter name</string>
+    <string name="age">Age</string>
+    <string name="ageHint">enter age</string>
+    <string name="dob">Birthday</string>
+    <string name="emoji">Emoji</string>
+    <string name="results">Results</string>
+    <string name="update">Update</string>
+    <string name="done">Done</string>
+    <string name="cancel">Cancel</string>
+    <string name="next">Next</string>
+    <string name="back">Back</string>
+    <string name="newPerson">New Person</string>
+    <string name="editProfile">Edit Profile</string>
+    <string name="logOut">Log Out</string>
+    <string name="logIn">Begin</string>
+    <string name="password">password</string>
+    <string name="email">email</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+</resources>

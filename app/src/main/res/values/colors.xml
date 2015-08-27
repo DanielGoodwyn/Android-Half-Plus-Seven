@@ -1,0 +1,10 @@
+<resources>
+    <color name="black">#000</color>
+    <color name="gray">#ccc</color>
+    <color name="white">#fff</color>
+    <color name="blue">#4d80cc</color>
+    <color name="darkBlue">#4c80cd</color>
+    <color name="lightBlue">#6598e6</color>
+    <color name="fb">#3b5998</color>
+    <color name="red">#e30c00</color>
+</resources>

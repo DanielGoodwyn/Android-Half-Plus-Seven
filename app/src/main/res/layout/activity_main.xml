@@ -1,0 +1,71 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".MainActivity$PlaceholderFragment"
+    android:background="@color/blue">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:background="@color/white">
+
+        <Button
+            android:id="@+id/user"
+            android:onClick="user"
+            android:text="@string/user"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textColor="@color/blue"
+            android:background="@color/white"
+            android:textAlignment="textStart"
+            android:textSize="@dimen/titleBarText"
+            android:textAllCaps="false"
+            android:fontFamily="sans-serif-light"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:text="@string/app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:alpha=".5"
+            android:textSize="@dimen/titleBarText"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif-medium"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/add"
+            android:onClick="add"
+            android:text="@string/plus"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textColor="@color/blue"
+            android:background="@color/white"
+            android:textAlignment="textEnd"
+            android:textSize="@dimen/mediumText"
+            android:fontFamily="sans-serif-thin"/>
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/names"
+        android:choiceMode="singleChoice"
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:background="@color/blue"/>
+
+</LinearLayout>

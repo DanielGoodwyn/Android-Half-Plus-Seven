@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <Button
+        android:onClick="done"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:alpha="0"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/blue">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:background="@color/blue">
+
+            <Button
+                android:id="@+id/back"
+                android:onClick="back"
+                android:text="@string/back"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textColor="@color/black"
+                android:background="@color/blue"
+                android:textAlignment="textStart"
+                android:textSize="@dimen/titleBarText"
+                android:textAllCaps="false"
+                android:fontFamily="sans-serif-light"
+                android:alpha=".5" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:text="@string/app_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="@dimen/titleBarText"
+                android:layout_gravity="center"
+                android:fontFamily="sans-serif-medium"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/done"
+                android:onClick="done"
+                android:text="@string/done"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textColor="@color/black"
+                android:background="@color/blue"
+                android:textAlignment="textStart"
+                android:textSize="@dimen/titleBarText"
+                android:textAllCaps="false"
+                android:fontFamily="sans-serif-light"
+                android:alpha=".5" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/results"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/results"
+            android:layout_gravity="center"
+            android:gravity="center_vertical|left"
+            android:textAlignment="textStart"
+            android:textColor="@color/white"
+            android:textSize="@dimen/mediumText"
+            android:layout_weight="1"
+            android:padding="@dimen/largeMargin" />
+
+    </LinearLayout>
+
+</AbsoluteLayout>
