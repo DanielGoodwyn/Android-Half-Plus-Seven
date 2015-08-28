@@ -143,7 +143,7 @@ public class User extends AppCompatActivity {
     public void update(View view) {
         ParseUser user = ParseUser.getCurrentUser();
         EditText name = (EditText) findViewById(R.id.name);
-        user.put("name", capitalizeWords(name.getText().toString()));
+	user.put("name", name.getText().toString().toLowerCase());
         Date dob = new Date(mYear-1900, mMonth, mDay);
         user.put("DOB", dob);
         user.put("user", user);
