@@ -1,13 +1,15 @@
 package com.halfplusseven.danielgoodwyn.halfplusseven;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
-import com.parse.ParseUser;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Date;
 
@@ -19,7 +21,6 @@ public class Answer extends AppCompatActivity {
     long time;
     double age;
 
-    ParseUser user = ParseUser.getCurrentUser();
     String userName;
     Date userDOB;
     long userTime;
@@ -35,36 +36,45 @@ public class Answer extends AppCompatActivity {
         DOB = new Date(time);
         age = ((time-now)*-1)/365.25/24/60/60/1000;
 
-        userName = user.getString("name");
-        userDOB = user.getDate("DOB");
-        userTime = userDOB.getTime();
-        userAge = ((userTime-now)*-1)/365.25/24/60/60/1000;
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("users").document(user.getUid()).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful() && task.getResult() != null && task.getResult().exists()) {
+                    userName = task.getResult().getString("name");
+                    userDOB = task.getResult().getDate("DOB");
+                    if (userDOB != null) {
+                        userTime = userDOB.getTime();
+                        userAge = ((userTime-now)*-1)/365.25/24/60/60/1000;
 
-        double userLowerRange = (userAge/2)+7;
-        double userUpperRange = (userAge-7)*2;
+                        double userLowerRange = (userAge/2)+7;
+                        double userUpperRange = (userAge-7)*2;
 
-        TextView answer = (TextView) findViewById(R.id.answer);
-        TextView nameView = (TextView) findViewById(R.id.name);
-        TextView emoji = (TextView) findViewById(R.id.emoji);
+                        TextView answer = (TextView) findViewById(R.id.answer);
+                        TextView nameView = (TextView) findViewById(R.id.name);
+                        TextView emoji = (TextView) findViewById(R.id.emoji);
 
-        if (userAge < 14 || age < 14) {
-            answer.setText("⛔ ");
-            nameView.setText("Nobody under 14 please...");
-            emoji.setText("👶👎");
-        } else if (age > userLowerRange && age < userUpperRange) {
-            answer.setText("YES");
-            nameView.setText("to " + name);
-            emoji.setText("😍👍");
-        } else if (age < userLowerRange) {
-            answer.setText("NO");
-            nameView.setText(name + " is too young for you.");
-            emoji.setText("😖👎");
-        } else if (age > userUpperRange) {
-            answer.setText("NO");
-            nameView.setText(name + " is too old for you.");
-            emoji.setText("😖👎");
+                        if (userAge < 14 || age < 14) {
+                            answer.setText("⛔ ");
+                            nameView.setText("Nobody under 14 please...");
+                            emoji.setText("👶👎");
+                        } else if (age > userLowerRange && age < userUpperRange) {
+                            answer.setText("YES");
+                            nameView.setText("to " + name);
+                            emoji.setText("😍👍");
+                        } else if (age < userLowerRange) {
+                            answer.setText("NO");
+                            nameView.setText(name + " is too young for you.");
+                            emoji.setText("😖👎");
+                        } else if (age > userUpperRange) {
+                            answer.setText("NO");
+                            nameView.setText(name + " is too old for you.");
+                            emoji.setText("😖👎");
+                        }
+                    }
+                }
+            });
         }
-
     }
 
     @Override

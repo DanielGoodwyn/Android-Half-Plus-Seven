@@ -1,21 +1,17 @@
-apply plugin: 'com.android.application'
+plugins {
+    id 'com.android.application'
+    id 'com.google.gms.google-services'
+}
 
 android {
-    signingConfigs {
-        config {
-            keyAlias 'keyalias'
-            keyPassword 'dandelion1'
-            storeFile file('/Users/danielgoodwyn/Projects/Parse/Android/Android-Half-Plus-Seven-Keystore/keystore.jks')
-            storePassword 'dandelion1'
-        }
-    }
-    compileSdkVersion 23
-    buildToolsVersion "23.0.0"
+    namespace "com.halfplusseven.danielgoodwyn.halfplusseven"
+    compileSdk 34
+
     defaultConfig {
         applicationId "com.halfplusseven.danielgoodwyn.halfplusseven"
-        minSdkVersion 15
-        targetSdkVersion 23
-	versionCode 3
+        minSdk 24
+        targetSdk 34
+        versionCode 3
         versionName "1.0"
     }
     buildTypes {
@@ -24,11 +20,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.0.0'
-    compile 'com.parse.bolts:bolts-android:1.+'
-    compile fileTree(dir: 'libs', include: 'Parse-*.jar')
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation platform('com.google.firebase:firebase-bom:33.2.0')
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-firestore'
 }

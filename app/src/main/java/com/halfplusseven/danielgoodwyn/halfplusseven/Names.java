@@ -3,7 +3,7 @@ package com.halfplusseven.danielgoodwyn.halfplusseven;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.Display;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,13 +11,10 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.parse.DeleteCallback;
-import com.parse.FindCallback;
-import com.parse.GetCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,25 +51,31 @@ public class Names extends AppCompatActivity {
             screenSize = height;
         }
 
-        final ParseUser user = ParseUser.getCurrentUser();
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final Button userButton = (Button) findViewById(R.id.user);
 
         if (user != null) {
-            userButton.setText(capitalize(user.getString("name")));
-
-            ParseQuery<ParseObject> query = ParseQuery.getQuery("Person");
-            query.whereEqualTo("user", user);
-            query.orderByAscending("name");
-            query.findInBackground(new FindCallback<ParseObject>() {
-                public void done(List<ParseObject> nameList, ParseException e) {
-                    if (e == null) {
-                        for (int i = 0; nameList.size() > i; i++) {
-                            ids.add(i, nameList.get(i).getObjectId());
-                            names.add(i, nameList.get(i).getString("name"));
-                            DOBs.add(i, nameList.get(i).getDate("DOB").getTime());
-                        }
-                        populateNamesListView();
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("users").document(user.getUid()).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful() && task.getResult() != null && task.getResult().exists()) {
+                    String usersName = task.getResult().getString("name");
+                    if (usersName != null) {
+                        userButton.setText(capitalize(usersName));
                     }
+                }
+            });
+
+            db.collection("Person").whereEqualTo("user", user.getUid()).orderBy("name").get().addOnCompleteListener(task -> {
+                if (task.isSuccessful() && task.getResult() != null) {
+                    ids.clear(); names.clear(); DOBs.clear();
+                    int i = 0;
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        ids.add(i, document.getId());
+                        names.add(i, document.getString("name"));
+                        DOBs.add(i, document.getDate("DOB").getTime());
+                        i++;
+                    }
+                    populateNamesListView();
                 }
             });
         } else {
@@ -92,25 +95,15 @@ public class Names extends AppCompatActivity {
         LVNames.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> arg0, View v, final int i, long id) {
                 v.setBackgroundColor(getResources().getColor(R.color.red));
-                ParseQuery<ParseObject> query = ParseQuery.getQuery("Person");
-                query.getInBackground(ids.get(i), new GetCallback<ParseObject>() {
-                    public void done(ParseObject object, ParseException e) {
-                        if (e == null) {
-                            object.deleteInBackground(new DeleteCallback() {
-                                public void done(ParseException e) {
-                                    if (e == null) {
-                                        names.remove(i);
-                                        ids.remove(i);
-                                        DOBs.remove(i);
-                                        populateNamesListView();
-                                        namesAdapter.notifyDataSetChanged();
-                                    }
-                                }
-                            });
-                        }
+                FirebaseFirestore.getInstance().collection("Person").document(ids.get(i)).delete().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        names.remove(i);
+                        ids.remove(i);
+                        DOBs.remove(i);
+                        populateNamesListView();
+                        namesAdapter.notifyDataSetChanged();
                     }
                 });
-
                 return true;
             }
         });

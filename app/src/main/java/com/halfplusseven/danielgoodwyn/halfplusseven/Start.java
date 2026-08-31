@@ -2,10 +2,11 @@ package com.halfplusseven.danielgoodwyn.halfplusseven;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
-import com.parse.Parse;
-import com.parse.ParseUser;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 
 public class Start extends AppCompatActivity {
@@ -14,10 +15,9 @@ public class Start extends AppCompatActivity {
     protected void onCreate(Bundle b) {
         super.onCreate(b);
 
-        Parse.enableLocalDatastore(this);
-        Parse.initialize(this, "xxUw77Hqfy0HzwspWZMUprW3k6EK64WevWUGzpEn", "aqFfAb8ImWFCV48l7Pj1DOsXoRogxQBNqVadXACN");
+        FirebaseApp.initializeApp(this);
 
-        final ParseUser user = ParseUser.getCurrentUser();
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             Intent i = new Intent(this, Names.class);
             startActivity(i);

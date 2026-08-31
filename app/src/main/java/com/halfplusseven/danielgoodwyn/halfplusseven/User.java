@@ -4,7 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -12,8 +12,9 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
-import com.parse.ParseException;
-import com.parse.ParseUser;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -35,21 +36,31 @@ public class User extends AppCompatActivity {
         super.onCreate(b);
         setContentView(R.layout.activity_user);
 
-        ParseUser user = ParseUser.getCurrentUser();
-        String usersName = user.getString("name");
-        Date date = user.getDate("DOB");
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("users").document(user.getUid()).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful() && task.getResult() != null && task.getResult().exists()) {
+                    String usersName = task.getResult().getString("name");
+                    Date date = task.getResult().getDate("DOB");
+                    if (usersName != null) {
+                        EditText nameEditText = (EditText) findViewById(R.id.name);
+                        nameEditText.setText(capitalize(usersName));
+                    }
+                    if (date != null) {
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(date);
+                        mDay = cal.get(Calendar.DAY_OF_MONTH);
+                        mMonth = cal.get(Calendar.MONTH);
+                        mYear = cal.get(Calendar.YEAR);
+                        
+                        Date time = cal.getTime();
+                        updateLabel(time);
+                    }
+                }
+            });
+        }
 
-        EditText nameEditText = (EditText) findViewById(R.id.name);
-        nameEditText.setText(capitalize(usersName));
-
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        mDay = cal.get(Calendar.DAY_OF_MONTH);
-        mMonth = cal.get(Calendar.MONTH);
-        mYear = cal.get(Calendar.YEAR);
-
-        Date time = cal.getTime();
-        updateLabel(time);
         final Button dateButton = (Button) findViewById(R.id.dateButton);
         final EditText ageEditText = (EditText) findViewById(R.id.ageEditText);
         dateButton.setOnClickListener(new View.OnClickListener() {
@@ -141,17 +152,12 @@ public class User extends AppCompatActivity {
     }
 
     public void update(View view) {
-        ParseUser user = ParseUser.getCurrentUser();
-        EditText name = (EditText) findViewById(R.id.name);
-	user.put("name", name.getText().toString().toLowerCase());
-        Date dob = new Date(mYear-1900, mMonth, mDay);
-        user.put("DOB", dob);
-        user.put("user", user);
-        try {
-            user.save();
-        } catch (ParseException e) {
-            e.printStackTrace();
-            finish();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            EditText name = (EditText) findViewById(R.id.name);
+            Date dob = new Date(mYear-1900, mMonth, mDay);
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("users").document(user.getUid()).update("name", name.getText().toString().toLowerCase(), "DOB", dob);
         }
         Intent i = new Intent(this, Names.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -166,6 +172,7 @@ public class User extends AppCompatActivity {
     }
 
     public String capitalize(String string) {
+        if (string == null || string.isEmpty()) return "";
         return string.substring(0, 1).toUpperCase() + string.substring(1);
     }
 
@@ -183,8 +190,7 @@ public class User extends AppCompatActivity {
     }
 
     public void logOut(View view) {
-        ParseUser user = ParseUser.getCurrentUser();
-        user.logOut();
+        FirebaseAuth.getInstance().signOut();
         Intent i = new Intent(User.this, com.halfplusseven.danielgoodwyn.halfplusseven.LogIn.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);

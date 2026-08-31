@@ -3,7 +3,7 @@ package com.halfplusseven.danielgoodwyn.halfplusseven;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -12,9 +12,9 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseUser;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -22,6 +22,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Add extends AppCompatActivity {
 
@@ -116,19 +118,24 @@ public class Add extends AppCompatActivity {
     }
 
     public void add(View view) {
-        ParseUser user = ParseUser.getCurrentUser();
-        ParseObject person = new ParseObject("Person");
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         EditText name = (EditText) findViewById(R.id.name);
-        person.put("name", capitalizeWords(name.getText().toString()));
         Date dob = new Date(mYear-1900, mMonth, mDay);
-        person.put("DOB", dob);
-        person.put("user", user);
-        try {
-            person.save();
-        } catch (ParseException e) {
-            e.printStackTrace();
-            finish();
+
+        if (user != null) {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            Map<String, Object> person = new HashMap<>();
+            person.put("name", capitalizeWords(name.getText().toString()));
+            person.put("DOB", dob);
+            person.put("user", user.getUid());
+            
+            db.collection("Person").add(person).addOnCompleteListener(task -> {
+                if (!task.isSuccessful()) {
+                    finish();
+                }
+            });
         }
+        
         Intent i = new Intent(Add.this, com.halfplusseven.danielgoodwyn.halfplusseven.Answer.class);
         i.putExtra("name", capitalizeWords(name.getText().toString()));
         i.putExtra("DOB", dob.getTime());
