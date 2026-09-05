@@ -1,5 +1,7 @@
 package com.halfplusseven.danielgoodwyn.halfplusseven;
 
+import com.danielgoodwyn.halfplussevenapp.R;
+
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -65,14 +67,14 @@ public class Names extends AppCompatActivity {
                 }
             });
 
-            db.collection("Person").whereEqualTo("user", user.getUid()).orderBy("name").get().addOnCompleteListener(task -> {
+            db.collection("persons").whereEqualTo("user", user.getUid()).orderBy("name").get().addOnCompleteListener(task -> {
                 if (task.isSuccessful() && task.getResult() != null) {
                     ids.clear(); names.clear(); DOBs.clear();
                     int i = 0;
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         ids.add(i, document.getId());
                         names.add(i, document.getString("name"));
-                        DOBs.add(i, document.getDate("DOB").getTime());
+                        DOBs.add(i, document.getDate("dob").getTime());
                         i++;
                     }
                     populateNamesListView();
@@ -95,7 +97,7 @@ public class Names extends AppCompatActivity {
         LVNames.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> arg0, View v, final int i, long id) {
                 v.setBackgroundColor(getResources().getColor(R.color.red));
-                FirebaseFirestore.getInstance().collection("Person").document(ids.get(i)).delete().addOnCompleteListener(task -> {
+                FirebaseFirestore.getInstance().collection("persons").document(ids.get(i)).delete().addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         names.remove(i);
                         ids.remove(i);

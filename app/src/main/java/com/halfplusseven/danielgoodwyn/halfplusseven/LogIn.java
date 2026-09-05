@@ -1,5 +1,7 @@
 package com.halfplusseven.danielgoodwyn.halfplusseven;
 
+import com.danielgoodwyn.halfplussevenapp.R;
+
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,7 +41,7 @@ public class LogIn extends AppCompatActivity {
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
                     Map<String, Object> userData = new HashMap<>();
                     userData.put("name", emailString);
-                    userData.put("DOB", new Date("11/18/1988"));
+                    userData.put("dob", new Date("11/18/1988"));
                     
                     db.collection("users").document(task.getResult().getUser().getUid()).set(userData);
 

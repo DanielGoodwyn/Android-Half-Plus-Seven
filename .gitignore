@@ -5,3 +5,6 @@
 .DS_Store
 /build
 /captures
+app/release.jks
+app/upload_certificate.pem
+release_artifacts/

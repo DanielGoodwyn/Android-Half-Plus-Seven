@@ -1,5 +1,7 @@
 package com.halfplusseven.danielgoodwyn.halfplusseven;
 
+import com.danielgoodwyn.halfplussevenapp.R;
+
 import android.content.Context;
 import android.view.View;
 import android.widget.Toast;

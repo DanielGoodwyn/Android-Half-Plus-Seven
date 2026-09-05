@@ -1,5 +1,7 @@
 package com.halfplusseven.danielgoodwyn.halfplusseven;
 
+import com.danielgoodwyn.halfplussevenapp.R;
+
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -42,7 +44,7 @@ public class User extends AppCompatActivity {
             db.collection("users").document(user.getUid()).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful() && task.getResult() != null && task.getResult().exists()) {
                     String usersName = task.getResult().getString("name");
-                    Date date = task.getResult().getDate("DOB");
+                    Date date = task.getResult().getDate("dob");
                     if (usersName != null) {
                         EditText nameEditText = (EditText) findViewById(R.id.name);
                         nameEditText.setText(capitalize(usersName));
@@ -157,7 +159,7 @@ public class User extends AppCompatActivity {
             EditText name = (EditText) findViewById(R.id.name);
             Date dob = new Date(mYear-1900, mMonth, mDay);
             FirebaseFirestore db = FirebaseFirestore.getInstance();
-            db.collection("users").document(user.getUid()).update("name", name.getText().toString().toLowerCase(), "DOB", dob);
+            db.collection("users").document(user.getUid()).update("name", name.getText().toString().toLowerCase(), "dob", dob);
         }
         Intent i = new Intent(this, Names.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

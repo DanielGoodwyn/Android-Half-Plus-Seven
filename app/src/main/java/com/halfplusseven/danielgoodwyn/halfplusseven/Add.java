@@ -1,5 +1,7 @@
 package com.halfplusseven.danielgoodwyn.halfplusseven;
 
+import com.danielgoodwyn.halfplussevenapp.R;
+
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -126,10 +128,10 @@ public class Add extends AppCompatActivity {
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             Map<String, Object> person = new HashMap<>();
             person.put("name", capitalizeWords(name.getText().toString()));
-            person.put("DOB", dob);
+            person.put("dob", dob);
             person.put("user", user.getUid());
             
-            db.collection("Person").add(person).addOnCompleteListener(task -> {
+            db.collection("persons").add(person).addOnCompleteListener(task -> {
                 if (!task.isSuccessful()) {
                     finish();
                 }
