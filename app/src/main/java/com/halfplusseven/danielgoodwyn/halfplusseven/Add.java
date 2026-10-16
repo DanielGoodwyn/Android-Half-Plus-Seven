@@ -130,6 +130,7 @@ public class Add extends AppCompatActivity {
             person.put("name", capitalizeWords(name.getText().toString()));
             person.put("dob", dob);
             person.put("user", user.getUid());
+            person.put("userId", user.getUid());
             
             db.collection("persons").add(person).addOnCompleteListener(task -> {
                 if (!task.isSuccessful()) {

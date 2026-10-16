@@ -41,10 +41,11 @@ public class Answer extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             FirebaseFirestore db = FirebaseFirestore.getInstance();
-            db.collection("users").document(user.getUid()).get().addOnCompleteListener(task -> {
-                if (task.isSuccessful() && task.getResult() != null && task.getResult().exists()) {
-                    userName = task.getResult().getString("name");
-                    userDOB = task.getResult().getDate("DOB");
+            db.collection("users").document(user.getUid()).addSnapshotListener((snapshot, e) -> {
+                if (e != null || snapshot == null) return;
+                if (snapshot.exists()) {
+                    userName = snapshot.getString("name");
+                    userDOB = snapshot.getDate("dob");
                     if (userDOB != null) {
                         userTime = userDOB.getTime();
                         userAge = ((userTime-now)*-1)/365.25/24/60/60/1000;

@@ -41,10 +41,11 @@ public class User extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             FirebaseFirestore db = FirebaseFirestore.getInstance();
-            db.collection("users").document(user.getUid()).get().addOnCompleteListener(task -> {
-                if (task.isSuccessful() && task.getResult() != null && task.getResult().exists()) {
-                    String usersName = task.getResult().getString("name");
-                    Date date = task.getResult().getDate("dob");
+            db.collection("users").document(user.getUid()).addSnapshotListener((snapshot, e) -> {
+                if (e != null || snapshot == null) return;
+                if (snapshot.exists()) {
+                    String usersName = snapshot.getString("name");
+                    Date date = snapshot.getDate("dob");
                     if (usersName != null) {
                         EditText nameEditText = (EditText) findViewById(R.id.name);
                         nameEditText.setText(capitalize(usersName));

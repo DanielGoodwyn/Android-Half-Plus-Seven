@@ -7,20 +7,89 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:877628237323:android:7ff47681c481661954890e",
+        "mobilesdk_app_id": "1:877628237323:android:b6a16b06519f0e4954890e",
         "android_client_info": {
           "package_name": "com.danielgoodwyn.halfplussevenapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "877628237323-6e5ehkh3k7oq3uqtcbgg8mpj6o68f4lf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.danielgoodwyn.halfplussevenapp",
+            "certificate_hash": "35c8a1dd876b3bc42165d19a9dd35e276e2434e3"
+          }
+        },
+        {
+          "client_id": "877628237323-83o6scami5t84eo9if334tuamnmmhh1k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.danielgoodwyn.halfplussevenapp",
+            "certificate_hash": "f989b76f3618cdf9259953c571d54e4cedf8f74c"
+          }
+        },
+        {
+          "client_id": "877628237323-588niu3d61m2kh453maap9a0hs26dh02.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyDUYv4vMY4GzZsTeia7sYE0ZNk-siRzmc4"
+          "current_key": "AIzaSyCe0uWrizrckxq6eHaESAvpYSwV0Ckvvv4"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "877628237323-588niu3d61m2kh453maap9a0hs26dh02.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "877628237323-ibdf49p38002jt5c1ecss0h44ev5h6ll.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Daniel.Half-Plus-Seven"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:877628237323:android:7ff47681c481661954890e",
+        "android_client_info": {
+          "package_name": "com.halfplusseven.danielgoodwyn.halfplusseven"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "877628237323-588niu3d61m2kh453maap9a0hs26dh02.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCe0uWrizrckxq6eHaESAvpYSwV0Ckvvv4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "877628237323-588niu3d61m2kh453maap9a0hs26dh02.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "877628237323-ibdf49p38002jt5c1ecss0h44ev5h6ll.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Daniel.Half-Plus-Seven"
+              }
+            }
+          ]
         }
       }
     }

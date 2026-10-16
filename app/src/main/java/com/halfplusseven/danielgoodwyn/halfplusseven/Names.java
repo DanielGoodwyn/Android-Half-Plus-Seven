@@ -20,6 +20,14 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Collections;
+
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class Names extends AppCompatActivity {
 
@@ -58,28 +66,53 @@ public class Names extends AppCompatActivity {
 
         if (user != null) {
             FirebaseFirestore db = FirebaseFirestore.getInstance();
-            db.collection("users").document(user.getUid()).get().addOnCompleteListener(task -> {
-                if (task.isSuccessful() && task.getResult() != null && task.getResult().exists()) {
-                    String usersName = task.getResult().getString("name");
+            db.collection("users").document(user.getUid()).addSnapshotListener((snapshot, e) -> {
+                if (e != null || snapshot == null) return;
+                if (snapshot.exists()) {
+                    String usersName = snapshot.getString("name");
                     if (usersName != null) {
                         userButton.setText(capitalize(usersName));
                     }
                 }
             });
 
-            db.collection("persons").whereEqualTo("user", user.getUid()).orderBy("name").get().addOnCompleteListener(task -> {
-                if (task.isSuccessful() && task.getResult() != null) {
-                    ids.clear(); names.clear(); DOBs.clear();
-                    int i = 0;
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        ids.add(i, document.getId());
-                        names.add(i, document.getString("name"));
-                        DOBs.add(i, document.getDate("dob").getTime());
-                        i++;
+            Map<String, DocumentSnapshot> allPersons = new HashMap<>();
+
+            EventListener<QuerySnapshot> listener = (value, error) -> {
+                if (error != null || value == null) return;
+                for (DocumentChange dc : value.getDocumentChanges()) {
+                    if (dc.getType() == DocumentChange.Type.REMOVED) {
+                        allPersons.remove(dc.getDocument().getId());
+                    } else {
+                        allPersons.put(dc.getDocument().getId(), dc.getDocument());
                     }
-                    populateNamesListView();
                 }
-            });
+
+                List<DocumentSnapshot> sortedDocs = new ArrayList<>(allPersons.values());
+                Collections.sort(sortedDocs, (d1, d2) -> {
+                    String n1 = d1.getString("name");
+                    String n2 = d2.getString("name");
+                    if (n1 == null) n1 = "";
+                    if (n2 == null) n2 = "";
+                    return n1.compareToIgnoreCase(n2);
+                });
+
+                ids.clear(); names.clear(); DOBs.clear();
+                for (int i = 0; i < sortedDocs.size(); i++) {
+                    DocumentSnapshot doc = sortedDocs.get(i);
+                    ids.add(i, doc.getId());
+                    names.add(i, doc.getString("name"));
+                    if (doc.getDate("dob") != null) {
+                        DOBs.add(i, doc.getDate("dob").getTime());
+                    } else {
+                        DOBs.add(i, 0L);
+                    }
+                }
+                populateNamesListView();
+            };
+
+            db.collection("persons").whereEqualTo("user", user.getUid()).addSnapshotListener(listener);
+            db.collection("persons").whereEqualTo("userId", user.getUid()).addSnapshotListener(listener);
         } else {
             userButton.setText("sign in");
         }
@@ -87,10 +120,6 @@ public class Names extends AppCompatActivity {
 
     public void populateNamesListView() {
         String[] namesArray = names.toArray(new String[names.size()]);
-        if (namesArray.length < 1) {
-            Intent i = new Intent(this, com.halfplusseven.danielgoodwyn.halfplusseven.Add.class);
-            startActivity(i);
-        }
         namesAdapter = new NamesAdapter(this, namesArray, selectedItem);
         final ListView LVNames = (ListView) findViewById(R.id.names);
         LVNames.setAdapter(namesAdapter);

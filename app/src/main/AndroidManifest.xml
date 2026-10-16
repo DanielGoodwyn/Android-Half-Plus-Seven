@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".Start"
+            android:name="com.halfplusseven.danielgoodwyn.halfplusseven.Start"
             android:label="@string/app_name"
             android:exported="true">
             <intent-filter>
@@ -24,7 +24,7 @@
             android:label="@string/logIn">
         </activity>
         <activity
-            android:name=".Names"
+            android:name="com.halfplusseven.danielgoodwyn.halfplusseven.Names"
             android:label="@string/user">
         </activity>
         <activity

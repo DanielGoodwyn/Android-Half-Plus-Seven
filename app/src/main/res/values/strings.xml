@@ -20,6 +20,7 @@
     <string name="editProfile">Edit Profile</string>
     <string name="logOut">Log Out</string>
     <string name="logIn">Begin</string>
+    <string name="beginWithGoogle">begin with Google</string>
     <string name="password">password</string>
     <string name="email">email</string>
     <string name="yes">Yes</string>
